@@ -1,5 +1,6 @@
 import segmentation
-
+import polinom
+import math
 EPSILON = segmentation.EPSILON
 
 def f(x):
@@ -15,9 +16,10 @@ def binsearch(l, r):
     
     while(r-l>EPSILON):
         x = l + (r-l)/2
-        v = f(x)/sgn
+        vv = f(x)
+        v = vv/sgn
         if v!=0: v = v/abs(v)
-        dihLog.append([l,r,x,v]);
+        dihLog.append([l,r,x,vv,v]);
         
         if v>0:
             l = x
@@ -34,6 +36,7 @@ def dichotomy(polignom, a, b):
     roots = [];
     for i in range(len(points)-1):
         x, y = points[i],points[i+1]
+        dihLog.append([]);
         p = binsearch(x,y)
         if len(roots)==0:
             roots.append(p)
@@ -48,10 +51,16 @@ def printDihLog():
         print("dihLog is empty")
         return
     
+    i = 0
     for l in dihLog:
-        if len(l)>=4:
-            print("L = {0[0]: .10f}, R = {0[1]: .10f}, C = {0[2]: .10f}, sgn(f(c))/sgn(f(l)) = {0[3]: n}".format(l))
+        if len(l)==5:
+            i += 1
+            print("{0:>2} | ".format(i)+"{0[0]: .10f} | {0[1]: .10f} | {0[2]: .10f} | {0[4]: 3n} | {0[3]: .10f}".format(l))
+        else:
+            i = 0
+            print("\nIt | {0:^13} | {1:^13} | {2:^13} | {4:^3} | {3:^16}".format("L","R","Xn","f(Xn)","L/R"))
+    return
 
 if __name__ == "__main__":
-    print(dichotomy([1.0, 0.0, -1.0], -1.23423425, 3.265621616))
+    print(dichotomy(polinom.formPolinom([1.0, -1.0, 2.0, math.pi, math.e]), -4.23423425, 3.265621616))
     printDihLog()

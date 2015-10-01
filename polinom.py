@@ -30,8 +30,10 @@ def polinomValue(polinom, x):
 def d(polinom):
     ans = []
 
-    for i in range(len(polinom)-1):
-        ans.append(polinom[i+1]*(i+1))
+    n = len(polinom)-1
+
+    for i in range(n):
+        ans.append(polinom[i]*(n-i))
 
     return ans
 
@@ -55,3 +57,4 @@ if __name__ == "__main__":
     assert (polinomValue([2.0,-12.0,23.0,64.0],0.0) == 64.0), "Test: f(x) = x(g(x))+64, f(0) fail"
 
     assert (d([1., 3., 3., 1.]) == [3., 6., 3.]), "Test: d (x+1)^3 fail"
+    assert (d([1., 0, 0, 1.]) == [3., 0., 0.]), "Test: d (x^4+1) fail"
